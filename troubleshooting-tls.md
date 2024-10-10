@@ -47,12 +47,12 @@ The following example is a quick one liner to look at the certificate chain.  We
 output deliberately.
 
 ```
-$ (echo -n | openssl s_client -connect rancher.cypraea.co.uk:443) > /dev/null 
-depth=2 C = US, O = Internet Security Research Group, CN = ISRG Root X1
+% (echo -n | openssl s_client -connect example.com:443) > /dev/null
+depth=2 C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root G2
 verify return:1
-depth=1 C = US, O = Let's Encrypt, CN = R11
+depth=1 C = US, O = DigiCert Inc, CN = DigiCert Global G2 TLS RSA SHA256 2020 CA1
 verify return:1
-depth=0 CN = rancher.cypraea.co.uk
+depth=0 C = US, ST = California, L = Los Angeles, O = Internet\C2\A0Corporation\C2\A0for\C2\A0Assigned\C2\A0Names\C2\A0and\C2\A0Numbers, CN = www.example.org
 verify return:1
 DONE
 ```
