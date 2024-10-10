@@ -3,7 +3,7 @@
 ### Listening ports on a Linux host
 
 `ss` is the maintained and supported tool on most Linux distributions for general socket statistics,
-including listening TCP sockets.  To resolve all information, such as socket user, root privilages
+including listening TCP sockets.  To enumerate all information, such as socket user, root privilages
 may be required.
 
 ```
@@ -52,10 +52,11 @@ Nmap done: 1 IP address (1 host up) scanned in 1.22 seconds
 
 #### open ports
 
-We know that the host we are scanning is listening on 22, 30000, and 30002.
+We know, from running `ss` locally on the host we are now scanning, that TCP ports 22, 30000, and
+30002 are listening.
 
-Ports 22 and 30000 were identified as 'open' with a reason of 'syn-ack' given.  This
-means that we were able to connect to the port and completed the TCP 3 way handshake:
+Only ports 22 and 30000 were identified as 'open' with a reason of 'syn-ack' given.  This means we
+completed the TCP 3 way handshake:
 
 ```
 14:08:11.816312 IP 192.168.136.41.50418 > 10.0.0.4.30000: Flags [S], seq 1026107496, win 64240, options [mss 1452,sackOK,TS val 3846181660 ecr 0,nop,wscale 7], length 0
@@ -66,8 +67,8 @@ means that we were able to connect to the port and completed the TCP 3 way hands
 
 #### closed ports
 
-There is nothing listening on port 30001. `nmap` gives the 'closed' reason as 'conn-refused'.  In
-this case this means that the remote host replied to our TCP SYN with a reset.
+There is nothing listening on port 30001. `nmap` gives the 'closed' reason as 'conn-refused'
+because the remote host replied to our TCP SYN with a reset.
 
 ```
 14:10:43.042030 IP 192.168.136.41.57066 > 10.0.0.4.30001: Flags [S], seq 2129400082, win 64240, options [mss 1452,sackOK,TS val 3846332886 ecr 0,nop,wscale 7], length 0
@@ -76,9 +77,9 @@ this case this means that the remote host replied to our TCP SYN with a reset.
 
 #### filtered ports
 
-We know that the remote host is listening on 30002 but not 30003, yet we received a 'filtered' status
-with a 'no-response' reason.  In this case our SYN packets were never received by the remote host.  This is
-often the case if the port is blocked by a firewall.
+We know that the remote host is listening on 30002 but not 30003, yet `nmap` shows a 'filtered' status
+with a 'no-response' reason in both cases.  This is as expected since no reply, SYN-ACK or RST respectively,
+was received in reply to our SYNs.  This is often the case if the port is blocked by a firewall.
 
 #### caveats
 
